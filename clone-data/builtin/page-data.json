@@ -1,0 +1,740 @@
+{
+  "title": "Built In: Job Search & Company Research",
+  "description": "Built In is a top destination for highly skilled professionals around the world. Our platform features real-time job listings and company profiles with rich insights for candidates searching in the US and globally.",
+  "lang": "en",
+  "body": {
+    "display": "block",
+    "flexDirection": "row",
+    "gridTemplateColumns": "none",
+    "gap": "normal",
+    "position": "static",
+    "width": "1440px",
+    "height": "2367.98px",
+    "padding": "0px",
+    "margin": "0px",
+    "color": "rgb(58, 59, 65)",
+    "backgroundColor": "rgb(255, 255, 255)",
+    "backgroundImage": "none",
+    "fontFamily": "Montserrat, sans-serif",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "lineHeight": "24px",
+    "borderRadius": "0px",
+    "boxShadow": "none"
+  },
+  "header": {
+    "text": "Companies\nJobs\nArticles\nJoin\nLog In\nFOR EMPLOYERS",
+    "style": {
+      "display": "block",
+      "flexDirection": "row",
+      "gridTemplateColumns": "none",
+      "gap": "normal",
+      "position": "sticky",
+      "width": "1440px",
+      "height": "80px",
+      "padding": "0px",
+      "margin": "0px",
+      "color": "rgb(58, 59, 65)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "backgroundImage": "none",
+      "fontFamily": "Montserrat, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "borderRadius": "0px",
+      "boxShadow": "none"
+    },
+    "links": [
+      {
+        "text": "Companies",
+        "href": "/companies"
+      },
+      {
+        "text": "Jobs",
+        "href": "/jobs"
+      },
+      {
+        "text": "Articles",
+        "href": "/tech-topics"
+      },
+      {
+        "text": "In Jobs",
+        "href": "/jobs?search="
+      },
+      {
+        "text": "View All Jobs",
+        "href": "/jobs"
+      },
+      {
+        "text": "Join",
+        "href": "/auth/signup?destination=%2f"
+      },
+      {
+        "text": "Log In",
+        "href": "/auth/login?destination=%2f"
+      },
+      {
+        "text": "FOR EMPLOYERS",
+        "href": "https://employers.builtin.com?utm_medium=BIReferral&utm_source=foremployers"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "index": 1,
+      "tag": "div",
+      "id": "",
+      "classes": "gradient-electric-sky position-relative",
+      "text": "Employer Intelligence Platform\nWe help the world make better decisions about where to work.\nBuilt In provides the trusted signals that help companies and candidates be visible, trusted, and chosen.\nEXPLORE COMPANIES HIRING\nEXPLORE EMPLOYER SOLUTIONS\nEXPLORE 100K+ COMPANIES",
+      "headings": [
+        "We help the world make better decisions about where to work."
+      ],
+      "buttons": [
+        {
+          "text": "EXPLORE COMPANIES HIRING",
+          "href": "https://builtin.com/jobs"
+        },
+        {
+          "text": "EXPLORE EMPLOYER SOLUTIONS",
+          "href": "https://hubs.ly/Q04d4FTh0"
+        },
+        {
+          "text": "EXPLORE 100K+ COMPANIES",
+          "href": "https://builtin.com/companies"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/gitlab.svg",
+          "alt": "Gitlab Logo",
+          "width": 108,
+          "height": 24
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/braze.svg",
+          "alt": "Braze Logo",
+          "width": 75,
+          "height": 35
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/capitalone.svg",
+          "alt": "Capital One Logo",
+          "width": 100,
+          "height": 36
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/servicenow.svg",
+          "alt": "ServiceNow Logo",
+          "width": 100,
+          "height": 15
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/datadog.svg",
+          "alt": "Datadog Logo",
+          "width": 100,
+          "height": 26
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/gm.svg",
+          "alt": "GM Logo",
+          "width": 43,
+          "height": 40
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/pfizer.svg",
+          "alt": "Pfizer Logo",
+          "width": 98,
+          "height": 40
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/topCompanies/pnc.svg",
+          "alt": "PNC Logo",
+          "width": 100,
+          "height": 29
+        }
+      ],
+      "style": {
+        "display": "block",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "relative",
+        "width": "1440px",
+        "height": "883.984px",
+        "padding": "0px",
+        "margin": "0px",
+        "color": "rgb(58, 59, 65)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "linear-gradient(rgb(84, 128, 250) 0.76%, rgb(164, 185, 255) 27.43%, rgb(255, 255, 255))",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "borderRadius": "0px",
+        "boxShadow": "none"
+      }
+    },
+    {
+      "index": 2,
+      "tag": "div",
+      "id": "",
+      "classes": "container",
+      "text": "Company Insights\nFor 100K+ Employers\n500K+ Jobs\nAll In One Place\nAI-Powered\nPlatform For Today\nGlobal Presence\nLocal Feel\nStart Your Job Search\nSee what millions of people are discovering on Built In today.\nAll Tech Jobs\nSee All Remote Tech Jobs\nEXPAND \nFOR EMPLOYERS\nWhat does AI tell candidates about your employer brand?\nGet your free AI reputation report today.\nSEE AI REPORT",
+      "headings": [
+        "Start Your Job Search",
+        "Remote",
+        "More Resources",
+        "Browse Jobs"
+      ],
+      "buttons": [
+        {
+          "text": "All Tech Jobs",
+          "href": "/jobs"
+        },
+        {
+          "text": "See All Remote Tech Jobs",
+          "href": "/jobs/remote"
+        },
+        {
+          "text": "EXPAND",
+          "href": null
+        },
+        {
+          "text": "Tech Companies",
+          "href": "/companies"
+        },
+        {
+          "text": "Companies Hiring Remotely",
+          "href": "/companies/hiring/remote"
+        },
+        {
+          "text": "Fully Remote Companies",
+          "href": "/companies/location/fully-remote"
+        },
+        {
+          "text": "Tech + Startup Salaries",
+          "href": "/salaries"
+        },
+        {
+          "text": "Tech News",
+          "href": "/tech-topics"
+        },
+        {
+          "text": "Tech Hubs",
+          "href": "/tech-hubs"
+        },
+        {
+          "text": "Tech Dictionary",
+          "href": "/tech-dictionary"
+        },
+        {
+          "text": "SEE AI REPORT",
+          "href": "https://employers.builtin.com/Reputationreport/"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://static.builtin.com/dist/images/home/CompanyInsights_Home.svg",
+          "alt": "Company Insights",
+          "width": 48,
+          "height": 48
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/Jobs_Home.svg",
+          "alt": "Jobs",
+          "width": 48,
+          "height": 48
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/AIPowered_Home.svg",
+          "alt": "AI Powered",
+          "width": 48,
+          "height": 48
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/GlobalPresence_Home.svg",
+          "alt": "Global Presence",
+          "width": 48,
+          "height": 48
+        },
+        {
+          "src": "https://static.builtin.com/dist/images/home/EmployerPortal_Home.png",
+          "alt": "Employer Portal",
+          "width": 631,
+          "height": 373
+        }
+      ],
+      "style": {
+        "display": "block",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "static",
+        "width": "1172px",
+        "height": "789px",
+        "padding": "0px 16px",
+        "margin": "0px 134px",
+        "color": "rgb(58, 59, 65)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "borderRadius": "0px",
+        "boxShadow": "none"
+      }
+    }
+  ],
+  "footer": {
+    "text": "About\nOur Story\nCareers\nOur Staff Writers\nContent Descriptions\nGet Involved\nRecruit With Built In\nBecome an Expert Contributor\nResources\nCustomer Support\nShare Feedback\nReport a Bug\nJob Tools + Career Resources\nBrowse Jobs\nA-Z\nHubs\nOur Sites\n© 2026 Built In. All rights reserved.\nLearning Lab User Agreement\nAccessibility Statement\nCopyright Policy\nPrivacy Policy\nTerms of Use\nYour Privacy Choices/Cookie Settings\nCA Notice of Collection",
+    "style": {
+      "display": "block",
+      "flexDirection": "row",
+      "gridTemplateColumns": "none",
+      "gap": "normal",
+      "position": "static",
+      "width": "1440px",
+      "height": "511px",
+      "padding": "0px",
+      "margin": "0px",
+      "color": "rgb(58, 59, 65)",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "backgroundImage": "none",
+      "fontFamily": "Montserrat, sans-serif",
+      "fontSize": "16px",
+      "fontWeight": "400",
+      "lineHeight": "24px",
+      "borderRadius": "0px",
+      "boxShadow": "none"
+    },
+    "links": [
+      {
+        "text": "Our Story",
+        "href": "https://builtin.com/our-story"
+      },
+      {
+        "text": "Careers",
+        "href": "https://employers.builtin.com/careers/"
+      },
+      {
+        "text": "Our Staff Writers",
+        "href": "https://builtin.com/our-staff"
+      },
+      {
+        "text": "Content Descriptions",
+        "href": "https://builtin.com/content-descriptions"
+      },
+      {
+        "text": "Recruit With Built In",
+        "href": "https://employers.builtin.com/membership?utm_medium=BIReferral&utm_source=foremployers"
+      },
+      {
+        "text": "Become an Expert Contributor",
+        "href": "https://builtin.com/expert-contributors"
+      },
+      {
+        "text": "Customer Support",
+        "href": "https://knowledgebase.builtin.com/s/"
+      },
+      {
+        "text": "Share Feedback",
+        "href": "https://form.jotform.com/223044927257054"
+      },
+      {
+        "text": "Report a Bug",
+        "href": "https://knowledgebase.builtin.com/s/contactsupport"
+      },
+      {
+        "text": "Job Tools + Career Resources",
+        "href": "https://builtin.com/articles/grow-your-career"
+      },
+      {
+        "text": "Browse Jobs",
+        "href": "https://builtin.com/browse-jobs"
+      },
+      {
+        "text": "A-Z",
+        "href": "https://builtin.com/tech-dictionary"
+      },
+      {
+        "text": "Our Sites",
+        "href": "https://builtin.com/our-sites"
+      },
+      {
+        "text": "Learning Lab User Agreement",
+        "href": "https://builtin.com/learning-lab-user-agreement"
+      },
+      {
+        "text": "Accessibility Statement",
+        "href": "https://builtin.com/accessibility-statement"
+      },
+      {
+        "text": "Copyright Policy",
+        "href": "https://builtin.com/copyright-policy"
+      },
+      {
+        "text": "Privacy Policy",
+        "href": "https://builtin.com/privacy-policy"
+      },
+      {
+        "text": "Terms of Use",
+        "href": "https://builtin.com/community-terms-of-use"
+      },
+      {
+        "text": "Your Privacy Choices/Cookie Settings",
+        "href": "https://builtin.com/california-do-not-sell-my-information"
+      },
+      {
+        "text": "CA Notice of Collection",
+        "href": "https://builtin.com/ca-notice-collection"
+      }
+    ]
+  },
+  "images": [
+    {
+      "src": "https://static.builtin.com/dist/images/bi-logo.svg",
+      "alt": "Built In Logo",
+      "width": 108,
+      "height": 48,
+      "classes": "d-none d-lg-block"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/gitlab.svg",
+      "alt": "Gitlab Logo",
+      "width": 108,
+      "height": 24,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/braze.svg",
+      "alt": "Braze Logo",
+      "width": 75,
+      "height": 35,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/capitalone.svg",
+      "alt": "Capital One Logo",
+      "width": 100,
+      "height": 36,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/servicenow.svg",
+      "alt": "ServiceNow Logo",
+      "width": 100,
+      "height": 15,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/datadog.svg",
+      "alt": "Datadog Logo",
+      "width": 100,
+      "height": 26,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/gm.svg",
+      "alt": "GM Logo",
+      "width": 43,
+      "height": 40,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/pfizer.svg",
+      "alt": "Pfizer Logo",
+      "width": 98,
+      "height": 40,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/topCompanies/pnc.svg",
+      "alt": "PNC Logo",
+      "width": 100,
+      "height": 29,
+      "classes": "brand-logo"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/CompanyInsights_Home.svg",
+      "alt": "Company Insights",
+      "width": 48,
+      "height": 48,
+      "classes": "h-3xl w-3xl"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/Jobs_Home.svg",
+      "alt": "Jobs",
+      "width": 48,
+      "height": 48,
+      "classes": "h-3xl w-3xl"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/AIPowered_Home.svg",
+      "alt": "AI Powered",
+      "width": 48,
+      "height": 48,
+      "classes": "h-3xl w-3xl"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/GlobalPresence_Home.svg",
+      "alt": "Global Presence",
+      "width": 48,
+      "height": 48,
+      "classes": "h-3xl w-3xl"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/home/EmployerPortal_Home.png",
+      "alt": "Employer Portal",
+      "width": 631,
+      "height": 373,
+      "classes": "w-100"
+    },
+    {
+      "src": "https://static.builtin.com/dist/images/9-dark.svg",
+      "alt": "BuiltIn",
+      "width": 105,
+      "height": 47,
+      "classes": ""
+    }
+  ],
+  "rootVars": {
+    "--osano-clear-dialog-background": "rgba(0,0,0,0)",
+    "--osano-button-border-color": "#fff",
+    "--osano-dialog-type": "bar",
+    "--osano-display-position": "bottom",
+    "--osano-info-dialog-position": "right",
+    "--osano-widget-position": "right",
+    "--osano-opt-out-widget-position": "left",
+    "--osano-button-background-color": "#244fe7",
+    "--osano-button-foreground-color": "#FFFFFF",
+    "--osano-dialog-background-color": "#ffffff",
+    "--osano-dialog-foreground-color": "#3a3b41",
+    "--osano-info-dialog-overlay-color": "rgba(0,0,0,0.45)",
+    "--osano-link-color": "#244fe7",
+    "--osano-toggle-off-track-color": "#717488",
+    "--osano-toggle-off-thumb-color": "#FFFFFF",
+    "--osano-toggle-on-track-color": "#244fe7",
+    "--osano-toggle-on-thumb-color": "#FFFFFF",
+    "--osano-widget-color": "#37cd8f",
+    "--osano-widget-outline-color": "#29246a",
+    "--osano-widget-fill-color": "#fff",
+    "--osano-focus-outline-color": "Highlight",
+    "--osano-button-close-color": "var(--osano-dialog-foreground-color)",
+    "--osano-button-accept-background-color": "var(--osano-button-background-color)",
+    "--osano-button-accept-border-color": "var(--osano-button-border-color, var(--osano-button-foreground-color))",
+    "--osano-button-accept-foreground-color": "var(--osano-button-foreground-color)",
+    "--osano-button-deny-background-color": "var(--osano-button-background-color)",
+    "--osano-button-deny-border-color": "var(--osano-button-border-color, var(--osano-button-foreground-color))",
+    "--osano-button-deny-foreground-color": "var(--osano-button-foreground-color)",
+    "--osano-button-reject-all-background-color": "var(--osano-button-background-color)",
+    "--osano-button-reject-all-background-color-hover": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-button-reject-all-border-color": "var(--osano-button-border-color, var(--osano-button-foreground-color))",
+    "--osano-button-reject-all-foreground-color": "var(--osano-button-foreground-color)",
+    "--osano-button-manage-background-color": "var(--osano-button-background-color)",
+    "--osano-button-manage-border-color": "var(--osano-button-border-color, var(--osano-button-foreground-color))",
+    "--osano-button-manage-foreground-color": "var(--osano-button-foreground-color)",
+    "--osano-info-dialog-link-color": "var(--osano-link-color)",
+    "--osano-info-dialog-button-close-color": "var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color))",
+    "--osano-info-dialog-toggle-off-track-color": "var(--osano-toggle-off-track-color)",
+    "--osano-info-dialog-toggle-off-thumb-color": "var(--osano-toggle-off-thumb-color)",
+    "--osano-info-dialog-toggle-on-track-color": "var(--osano-toggle-on-track-color)",
+    "--osano-info-dialog-toggle-on-thumb-color": "var(--osano-toggle-on-thumb-color)",
+    "--osano-info-dialog-button-background-color": "var(--osano-button-background-color)",
+    "--osano-info-dialog-button-border-color": "var(--osano-info-dialog-button-foreground-color, var(--osano-button-foreground-color))",
+    "--osano-info-dialog-button-foreground-color": "var(--osano-button-foreground-color)",
+    "--osano-dialog-gpc-background-color": "var(--osano-dialog-background-color)",
+    "--osano-dialog-gpc-border-color": "var(--osano-dialog-foreground-color)",
+    "--osano-dialog-gpc-foreground-color": "var(--osano-dialog-foreground-color)",
+    "--osano-dialog-gpc-color": "#37cd84",
+    "--osano-info-dialog-gpc-background-color": "var(--osano-info-dialog-background-color, var(--osano-dialog-background-color))",
+    "--osano-info-dialog-gpc-border-color": "var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color))",
+    "--osano-info-dialog-gpc-foreground-color": "var(--osano-info-dialog-foreground-color, var(--osano-dialog-foreground-color))",
+    "--osano-info-dialog-gpc-color": "var(--osano-dialog-gpc-color)",
+    "--osano-gpc-background-color": "#ffffff",
+    "--osano-gpc-border-color": "#058a5e",
+    "--osano-gpc-foreground-color": "#058a5e",
+    "--osano-gpc-color": "#37cd84",
+    "--osano-gpc-background-color-hover": "#ffffff",
+    "--osano-toggle-off-background-color": "#d2cfff",
+    "--osano-toggle-button-off-color": "#ffffff",
+    "--osano-toggle-on-background-color": "#37cd8f",
+    "--osano-toggle-button-on-color": "#f4f4f4",
+    "--osano-button-background-color-contrast": "#3863fb",
+    "--osano-button-foreground-color-contrast": "#ebebeb",
+    "--osano-dialog-background-color-contrast": "#ebebeb",
+    "--osano-dialog-foreground-color-contrast": "#4e4f55",
+    "--osano-link-color-contrast": "#3863fb",
+    "--osano-toggle-off-track-color-contrast": "#85889c",
+    "--osano-toggle-off-track-color-disabled": "#b1b4c8",
+    "--osano-toggle-off-thumb-color-contrast": "#ebebeb",
+    "--osano-toggle-off-thumb-color-disabled": "#bfbfbf",
+    "--osano-toggle-on-track-color-contrast": "#3863fb",
+    "--osano-toggle-on-track-color-disabled": "#648fff",
+    "--osano-toggle-on-thumb-color-contrast": "#ebebeb",
+    "--osano-toggle-on-thumb-color-disabled": "#bfbfbf",
+    "--osano-gpc-background-color-contrast": "#ebebeb",
+    "--osano-button-background-color-hover": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-button-foreground-color-hover": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-button-background-color-focus": "var(--osano-button-foreground-color-hover, var(--osano-button-foreground-color-contrast))",
+    "--osano-button-foreground-color-focus": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-toggle-off-track-color-hover": "var(--osano-toggle-off-track-color-contrast, #85889c)",
+    "--osano-toggle-off-thumb-color-hover": "var(--osano-toggle-off-thumb-color-contrast, #ebebeb)",
+    "--osano-toggle-off-track-color-focus": "var(--osano-toggle-off-thumb-color-hover, var(--osano-toggle-off-thumb-color-contrast))",
+    "--osano-toggle-off-thumb-color-focus": "var(--osano-toggle-off-track-color-hover, var(--osano-toggle-off-track-color-contrast))",
+    "--osano-toggle-on-track-color-hover": "var(--osano-toggle-on-track-color-contrast, #3863fb)",
+    "--osano-toggle-on-thumb-color-hover": "var(--osano-toggle-on-thumb-color-contrast, #ebebeb)",
+    "--osano-toggle-on-track-color-focus": "var(--osano-toggle-on-thumb-color-hover, var(--osano-toggle-on-thumb-color-contrast))",
+    "--osano-toggle-on-thumb-color-focus": "var(--osano-toggle-on-track-color-hover, var(--osano-toggle-on-track-color-contrast))",
+    "--osano-button-accept-background-color-contrast": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-button-accept-foreground-color-contrast": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-button-accept-background-color-hover": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-button-accept-foreground-color-hover": "var(--osano-button-accept-foreground-color-contrast, var(--osano-button-foreground-color-contrast))",
+    "--osano-button-accept-background-color-focus": "var(--osano-button-accept-foreground-color-hover, var(--osano-button-accept-foreground-color-contrast))",
+    "--osano-button-accept-foreground-color-focus": "var(--osano-button-accept-background-color-hover, var(--osano-button-background-color-hover))",
+    "--osano-button-deny-background-color-contrast": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-button-deny-foreground-color-contrast": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-button-deny-background-color-hover": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-button-deny-foreground-color-hover": "var(--osano-button-deny-foreground-color-contrast, var(--osano-button-foreground-color-contrast))",
+    "--osano-button-deny-background-color-focus": "var(--osano-button-deny-foreground-color-hover, var(--osano-button-deny-foreground-color-contrast))",
+    "--osano-button-deny-foreground-color-focus": "var(--osano-button-deny-background-color-hover, var(--osano-button-background-color-hover))",
+    "--osano-button-reject-all-background-color-contrast": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-button-reject-all-foreground-color-contrast": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-button-reject-all-foreground-color-hover": "var(--osano-button-reject-all-foreground-color-contrast, var(--osano-button-foreground-color-contrast))",
+    "--osano-button-reject-all-background-color-focus": "var(--osano-button-reject-all-foreground-color-hover, var(--osano-button-reject-all-foreground-color-contrast))",
+    "--osano-button-reject-all-foreground-color-focus": "var(--osano-button-reject-all-background-color-hover, var(--osano-button-background-color-hover))",
+    "--osano-button-manage-background-color-contrast": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-button-manage-foreground-color-contrast": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-button-manage-background-color-hover": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-button-manage-foreground-color-hover": "var(--osano-button-manage-foreground-color-contrast, var(--osano-button-foreground-color-contrast))",
+    "--osano-button-manage-background-color-focus": "var(--osano-button-manage-foreground-color-hover, var(--osano-button-manage-foreground-color-contrast))",
+    "--osano-button-manage-foreground-color-focus": "var(--osano-button-manage-background-color-hover, var(--osano-button-background-color-hover))",
+    "--osano-info-dialog-foreground-color": "var(--osano-dialog-foreground-color)",
+    "--osano-info-dialog-background-color": "var(--osano-dialog-background-color)",
+    "--osano-info-dialog-button-background-color-contrast": "var(--osano-button-background-color-contrast, #3863fb)",
+    "--osano-info-dialog-button-foreground-color-contrast": "var(--osano-button-foreground-color-contrast, #ebebeb)",
+    "--osano-info-dialog-button-background-color-hover": "var(--osano-button-background-color-hover, var(--osano-button-background-color-contrast))",
+    "--osano-info-dialog-button-foreground-color-hover": "var(--osano-info-dialog-button-foreground-color-contrast, var(--osano-button-foreground-color-contrast))",
+    "--osano-info-dialog-button-background-color-focus": "var(--osano-info-dialog-button-foreground-color-hover, var(--osano-info-dialog-button-foreground-color-contrast))",
+    "--osano-info-dialog-button-foreground-color-focus": "var(--osano-info-dialog-button-background-color-hover, var(--osano-button-background-color-hover))",
+    "--osano-info-dialog-toggle-off-track-color-contrast": "var(--osano-toggle-off-track-color-contrast, #85889c)",
+    "--osano-info-dialog-toggle-off-thumb-color-contrast": "var(--osano-toggle-off-thumb-color-contrast, #ebebeb)",
+    "--osano-info-dialog-toggle-off-track-color-hover": "var(--osano-info-dialog-toggle-off-track-color-contrast, var(--osano-toggle-off-track-color-contrast))",
+    "--osano-info-dialog-toggle-off-thumb-color-hover": "var(--osano-info-dialog-toggle-off-thumb-color-contrast, var(--osano-toggle-off-thumb-color-contrast))",
+    "--osano-info-dialog-toggle-off-track-color-focus": "var(--osano-info-dialog-toggle-off-thumb-color-hover, var(--osano-info-dialog-toggle-off-thumb-color-contrast))",
+    "--osano-info-dialog-toggle-off-thumb-color-focus": "var(--osano-info-dialog-toggle-off-track-color-hover, var(--osano-info-dialog-toggle-off-track-color-contrast))",
+    "--osano-info-dialog-toggle-off-track-color-disabled": "var(--osano-toggle-off-track-color-disabled, #b1b4c8)",
+    "--osano-info-dialog-toggle-off-thumb-color-disabled": "var(--osano-toggle-off-thumb-color-disabled, #bfbfbf)",
+    "--osano-info-dialog-toggle-on-track-color-contrast": "var(--osano-toggle-on-track-color-contrast, #3863fb)",
+    "--osano-info-dialog-toggle-on-thumb-color-contrast": "var(--osano-toggle-on-thumb-color-contrast, #ebebeb)",
+    "--osano-info-dialog-toggle-on-track-color-hover": "var(--osano-info-dialog-toggle-on-track-color-contrast, var(--osano-toggle-on-track-color-contrast))",
+    "--osano-info-dialog-toggle-on-thumb-color-hover": "var(--osano-info-dialog-toggle-on-thumb-color-contrast, var(--osano-toggle-on-thumb-color-contrast))",
+    "--osano-info-dialog-toggle-on-track-color-focus": "var(--osano-info-dialog-toggle-on-thumb-color-hover, var(--osano-info-dialog-toggle-on-thumb-color-contrast))",
+    "--osano-info-dialog-toggle-on-thumb-color-focus": "var(--osano-info-dialog-toggle-on-track-color-hover, var(--osano-info-dialog-toggle-on-track-color-contrast))",
+    "--osano-info-dialog-toggle-on-track-color-disabled": "var(--osano-toggle-on-track-color-disabled, #648fff)",
+    "--osano-info-dialog-toggle-on-thumb-color-disabled": "var(--osano-toggle-on-thumb-color-disabled, #bfbfbf)",
+    "--osano-info-dialog-link-color-contrast": "var(--osano-link-color-contrast, #3863fb)"
+  },
+  "firstStyles": {
+    "h1": {
+      "text": "We help the world make better decisions about where to work.",
+      "style": {
+        "display": "block",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "static",
+        "width": "980px",
+        "height": "116px",
+        "padding": "0px",
+        "margin": "0px 0px 24px",
+        "color": "rgb(58, 59, 65)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "48px",
+        "fontWeight": "800",
+        "lineHeight": "58px",
+        "borderRadius": "0px",
+        "boxShadow": "none"
+      },
+      "tag": "H1",
+      "classes": "fw-extrabold fs-2xl fs-lg-5xl mb-lg text-center"
+    },
+    "h2": {
+      "text": "Start Your Job Search",
+      "style": {
+        "display": "block",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "static",
+        "width": "367.594px",
+        "height": "38px",
+        "padding": "0px",
+        "margin": "0px 0px 16px",
+        "color": "rgb(7, 0, 108)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "backgroundImage": "none",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "32px",
+        "fontWeight": "800",
+        "lineHeight": "38px",
+        "borderRadius": "0px",
+        "boxShadow": "none"
+      },
+      "tag": "H2",
+      "classes": "fw-extrabold text-midnight-indigo fs-3xl mb-md"
+    },
+    "nav": {
+      "text": "Companies\n        \n                Jobs\n        \n                Tracker\n        \n                Articles\n        \n                More",
+      "style": {
+        "display": "none",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "fixed",
+        "width": "auto",
+        "height": "48px",
+        "padding": "0px",
+        "margin": "0px",
+        "color": "rgb(58, 59, 65)",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "backgroundImage": "none",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "16px",
+        "fontWeight": "400",
+        "lineHeight": "24px",
+        "borderRadius": "0px",
+        "boxShadow": "rgba(0, 0, 0, 0.2) 0px 2px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px, rgba(0, 0, 0, 0.14) 0px 4px 5px 0px"
+      },
+      "tag": "NAV",
+      "classes": "mobile-nav d-lg-none"
+    },
+    "button": {
+      "text": "EXPLORE COMPANIES HIRING",
+      "style": {
+        "display": "block",
+        "flexDirection": "row",
+        "gridTemplateColumns": "none",
+        "gap": "normal",
+        "position": "static",
+        "width": "277.516px",
+        "height": "40px",
+        "padding": "11px 16px",
+        "margin": "0px",
+        "color": "rgb(255, 255, 255)",
+        "backgroundColor": "rgb(170, 47, 190)",
+        "backgroundImage": "none",
+        "fontFamily": "Montserrat, sans-serif",
+        "fontSize": "14px",
+        "fontWeight": "700",
+        "lineHeight": "16px",
+        "borderRadius": "8px",
+        "boxShadow": "none"
+      },
+      "tag": "A",
+      "classes": "discover-btn btn btn-lg bg-amethyst text-white"
+    }
+  }
+}

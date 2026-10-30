@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Built In Website Recreation"
+description = "An authorized responsive recreation of the Built In homepage for rebuild and migration work."
+version = "1.0.0"
+id = "artifacts/builtin-recreation"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18674
+
+[services.development]
+run = "pnpm --filter @workspace/builtin-recreation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/builtin-recreation", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/builtin-recreation/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18674"
+BASE_PATH = "/"
