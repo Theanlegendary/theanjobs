@@ -1,2 +1,41 @@
+# Sandbox Tech Careers Platform - Robots.txt
+# Updated: November 3, 2026
+
+# Allow all crawlers
 User-agent: *
 Allow: /
+
+# Sitemap location
+Sitemap: https://sandbox.com/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
+
+# Block sensitive areas (if any in future)
+# Disallow: /api/
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow job and company pages (most important for SEO)
+Allow: /jobs/
+Allow: /companies/
+Allow: /articles/
+Allow: /tech-topics/
+
+# Common crawlers - no special restrictions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# LinkedIn bot for job postings
+User-agent: LinkedInBot
+Allow: /jobs/
+Allow: /companies/
