@@ -22,7 +22,6 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import { StatsSection } from '@/components/StatsSection';
 import { BestJobsSection } from '@/components/BestJobsSection';
 import { opportunitiesData } from './Jobs';
 
@@ -343,7 +342,7 @@ export default function Home() {
                     <img
                       src={editorialTodayPicks[0].image}
                       alt={editorialTodayPicks[0].title}
-                      className="w-full aspect-16/10 object-cover group-hover:scale-103 transition-transform duration-300"
+                      className="w-full aspect-[1.45/1] object-cover group-hover:scale-103 transition-transform duration-300"
                     />
                   </Link>
                   <span 
@@ -373,7 +372,7 @@ export default function Home() {
                     <img
                       src={editorialTodayPicks[1].image}
                       alt={editorialTodayPicks[1].title}
-                      className="w-full aspect-16/10 object-cover group-hover:scale-103 transition-transform duration-300"
+                      className="w-full aspect-[1.45/1] object-cover group-hover:scale-103 transition-transform duration-300"
                     />
                   </Link>
                   <span 
@@ -406,7 +405,7 @@ export default function Home() {
                     <img
                       src={editorialTodayPicks[2].image}
                       alt={editorialTodayPicks[2].title}
-                      className="w-full aspect-16/11 object-cover group-hover:scale-103 transition-transform duration-300"
+                      className="w-full aspect-[2.15/1] object-cover group-hover:scale-103 transition-transform duration-300"
                     />
                   </Link>
                   <span 
@@ -474,7 +473,7 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <Link href={`/articles/${item.slug}`} className="shrink-0 block w-20 h-16 rounded overflow-hidden bg-slate-100">
+                  <Link href={`/articles/${item.slug}`} className="shrink-0 block w-24 h-18 rounded-md overflow-hidden bg-slate-100 aspect-[1.3/1]">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -490,10 +489,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============================================================== */}
-      {/* 3. 2:10 FEATURE: KEY METRIC STATS CARDS (StatsSection)         */}
-      {/* ============================================================== */}
-      <StatsSection />
+      
 
       {/* ============================================================== */}
       {/* 4. VIỆC LÀM TỐT NHẤT (BEST JOBS 3x3 CAROUSEL SHOWCASE)          */}
@@ -510,10 +506,10 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row gap-6 items-stretch">
             
             {/* Left Column: Top Companies Are Hiring Poster Card (Metfone Hero) */}
-            <div className="w-full lg:w-[300px] shrink-0">
+            <div className="w-full lg:w-[310px] shrink-0">
               <Link
                 href="/companies"
-                className="block relative rounded-2xl overflow-hidden h-full min-h-[460px] shadow-xs hover:shadow-md transition group"
+                className="block relative rounded-2xl overflow-hidden h-full min-h-[460px] w-full shadow-xs hover:shadow-md transition group"
               >
                 <img
                   src="/images/home_poster_metfone.png"
@@ -813,7 +809,7 @@ export default function Home() {
                 style={{ scrollSnapAlign: 'start' }}
               >
                 {/* Top Image Box */}
-                <div className="relative h-44 bg-slate-900 overflow-hidden">
+                <div className="relative aspect-[2.1/1] w-full bg-slate-900 overflow-hidden">
                   <img
                     src={opp.coverImage || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80'}
                     alt={opp.title || 'Career Opportunity'}
