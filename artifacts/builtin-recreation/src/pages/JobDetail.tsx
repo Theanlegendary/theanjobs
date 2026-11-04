@@ -25,6 +25,8 @@ import {
   Flag,
   Home as HomeIcon,
   Zap,
+  BarChart2,
+  ChevronRight,
 } from 'lucide-react';
 import {
   getJobById,
@@ -264,16 +266,16 @@ export default function JobDetail() {
       </div>
 
       {/* ==================================================================== */}
-      {/* 2. BUILT IN 3-CARD GRADIENT HERO SECTION                             */}
+      {/* 2. BUILT IN FLAGSHIP HERO SECTION                                     */}
       {/* ==================================================================== */}
       <section className="builtin-hero" aria-label="Job Overview and Action Hero">
-        <div className="builtin-hero-inner">
-          
-          {/* Card 1: Identity & Role Scope */}
-          <div className="builtin-hero-card">
-            <div>
-              <div className="hero-brand-row">
-                <div className="hero-brand-logo">
+        <div className="flagship-hero-container">
+          <div className="flagship-job-card">
+            
+            {/* Top Row: Logo Box, Company Meta, New Badge & Bookmark */}
+            <div className="flagship-top-row">
+              <div className="flagship-brand-group">
+                <div className="flagship-logo-box">
                   <img
                     src={company.logoImg || job.logo || '/sandbox-logo.png'}
                     alt={company.name}
@@ -282,63 +284,91 @@ export default function JobDetail() {
                     }}
                   />
                 </div>
-                <Link href={`/companies/${company.slug}`} className="hero-brand-name">
-                  <span>{company.name}</span>
-                  <CheckCircle size={14} className="text-blue-600 shrink-0" fill="#0A66C2" color="#ffffff" />
-                </Link>
+                <div className="flagship-company-meta">
+                  <div className="flagship-company-name-row">
+                    <Link href={`/companies/${company.slug}`} className="flagship-company-name">
+                      {company.name}
+                    </Link>
+                    <span className="flagship-verified-badge" title="Verified Employer">
+                      <CheckCircle size={15} fill="#0A66C2" color="#ffffff" className="shrink-0" />
+                    </span>
+                  </div>
+                  <div className="flagship-company-sub">
+                    <span>{job.department || company.industry || 'M&E Engineering'}</span>
+                    <span className="sub-dot">•</span>
+                    <span>{company.size || company.employees || '500–1,000 employees'}</span>
+                  </div>
+                </div>
               </div>
-              <h1 className="hero-job-title">{job.title}</h1>
-            </div>
-            <div className="hero-posted-time">
-              <Clock size={13} />
-              <span>{job.datePosted || job.timeAgo || 'Posted Recently'}</span>
-            </div>
-          </div>
 
-          {/* Card 2: Operational Specifications & Headcount */}
-          <div className="builtin-hero-card">
-            <div className="hero-applicant-pill">
-              <Zap size={12} className="text-blue-600 fill-blue-600" />
-              <span>Verified Listing</span>
-            </div>
-            <div className="hero-specs-list">
-              <div className="hero-spec-item">
-                <MapPin size={14} className="hero-spec-icon" />
-                <span className="hero-spec-text">{job.location}</span>
-              </div>
-              <div className="hero-spec-item">
-                <Laptop size={14} className="hero-spec-icon" />
-                <span className="hero-spec-text">{job.workplaceType || 'Hybrid'}</span>
-              </div>
-              <div className="hero-spec-item">
-                <Tag size={14} className="hero-spec-icon" />
-                <span className="hero-spec-text">
-                  {job.compensation} {job.salaryPeriod || 'Annually'}
+              <div className="flagship-top-actions">
+                <span className="flagship-badge-new">
+                  <span className="new-dot" />
+                  New
                 </span>
-              </div>
-              <div className="hero-spec-item">
-                <GraduationCap size={14} className="hero-spec-icon" />
-                <span className="hero-spec-text">{job.seniority || 'Mid-Senior Level'}</span>
+                <button
+                  type="button"
+                  onClick={handleSaveToggle}
+                  className={`flagship-save-btn ${saved ? 'saved' : ''}`}
+                  title={saved ? 'Remove from saved' : 'Save job'}
+                >
+                  <Bookmark size={18} fill={saved ? '#0052cc' : 'none'} className={saved ? 'text-blue-600' : ''} />
+                </button>
               </div>
             </div>
-          </div>
 
-          {/* Card 3: Action & Category Tagline */}
-          <div className="builtin-hero-card">
-            <div>
-              <div className="hero-categories-text">
-                {job.department || 'Technology • Strategic Infrastructure • Operations'}
-              </div>
-              <div className="hero-tagline-text">
-                {company.name} &mdash; {company.industry || 'Accredited Industry Enterprise'}
-              </div>
-            </div>
-            <div className="hero-trust-badge">
-              <ShieldCheck size={14} className="text-emerald-500 shrink-0" />
-              <span>Direct employer transmission &bull; 100% verified employer</span>
-            </div>
-          </div>
+            {/* Main Job Title */}
+            <h1 className="flagship-job-title">{job.title}</h1>
 
+            {/* Attributes Strip with | dividers */}
+            <div className="flagship-specs-strip">
+              <div className="flagship-spec-cell">
+                <MapPin size={15} className="spec-icon" />
+                <span>{job.location}</span>
+              </div>
+              <span className="flagship-pipe">|</span>
+              <div className="flagship-spec-cell">
+                <Briefcase size={15} className="spec-icon" />
+                <span>{job.workplaceType || 'On-site'}</span>
+              </div>
+              <span className="flagship-pipe">|</span>
+              <div className="flagship-spec-cell">
+                <BarChart2 size={15} className="spec-icon" />
+                <span>{job.seniority || 'Senior Specialist'}</span>
+              </div>
+            </div>
+
+            {/* Bottom Row: Salary & Posted Date | Apply Now Button */}
+            <div className="flagship-bottom-row">
+              <div className="flagship-bottom-left">
+                <div className="flagship-salary-cell">
+                  <svg className="flagship-sack-icon" viewBox="0 0 576 512" width="16" height="16" fill="#0052cc">
+                    <path d="M576 224c0-35.3-28.7-64-64-64h-80v-48c0-61.9-50.1-112-112-112h-64C194.1 0 144 50.1 144 112v48H64C28.7 160 0 188.7 0 224v224c0 35.3 28.7 64 64 64h448c35.3 0 64-28.7 64-64V224zM256 64h64c26.5 0 48 21.5 48 48v48H208v-48c0-26.5 21.5-48 48-48zm32 352c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+                  </svg>
+                  <strong className="flagship-salary-text">
+                    {job.compensation} {job.salaryPeriod && !job.compensation.includes('/') ? job.salaryPeriod : ''}
+                  </strong>
+                </div>
+                <span className="flagship-pipe">|</span>
+                <div className="flagship-posted-cell">
+                  <Clock size={15} className="spec-icon" />
+                  <span>{job.datePosted ? (job.datePosted.includes('•') ? job.datePosted : `${job.datePosted} • 2d ago`) : 'Posted recently • 2d ago'}</span>
+                </div>
+              </div>
+
+              <div className="flagship-bottom-right">
+                <button
+                  type="button"
+                  onClick={() => setShowApplyModal(true)}
+                  className="flagship-apply-btn"
+                >
+                  <span>Apply Now</span>
+                  <ChevronRight size={17} strokeWidth={2.5} />
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
