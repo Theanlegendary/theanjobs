@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import http.server
-import socketserver
 import os
 import sys
 
@@ -8,6 +7,8 @@ PORT = 5173
 DIRECTORY = os.path.join(os.path.dirname(__file__), "artifacts", "builtin-recreation", "dist", "public")
 
 class SPAServer(http.server.SimpleHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
@@ -37,9 +38,9 @@ if __name__ == "__main__":
         print(f"Error: Directory {DIRECTORY} does not exist. Run 'pnpm run build' first.")
         sys.exit(1)
         
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("0.0.0.0", PORT), SPAServer) as httpd:
-        print(f"Serving SPA from {DIRECTORY} on http://localhost:{PORT}")
+    http.server.ThreadingHTTPServer.allow_reuse_address = True
+    with http.server.ThreadingHTTPServer(("0.0.0.0", PORT), SPAServer) as httpd:
+        print(f"Serving SPA multi-threaded from {DIRECTORY} on http://localhost:{PORT}")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:

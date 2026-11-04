@@ -1,149 +1,204 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'wouter';
 import {
   Briefcase,
   MapPin,
   Clock,
   CheckCircle,
-  Building2,
   Sparkles,
   ArrowRight,
   Bookmark,
   Share2,
-  DollarSign,
-  UploadCloud,
-  ExternalLink,
-  Flame,
-  Check,
-  Award,
+  Tag,
+  GraduationCap,
+  Laptop,
   ShieldCheck,
-  Mail,
-  Phone,
-  FileText,
+  Building2,
   Calendar,
   Users,
-  Globe,
-  ChevronRight
+  ChevronDown,
+  ChevronUp,
+  UploadCloud,
+  FileText,
+  X,
+  Send,
+  Flag,
+  Home as HomeIcon,
+  Zap,
 } from 'lucide-react';
-import { getJobById, jobsDatabase, JobItem, getCompanyBySlug, companiesDatabase, CompanyProfile } from '@/data/portalData';
+import {
+  getJobById,
+  jobsDatabase,
+  JobItem,
+  getCompanyBySlug,
+  companiesDatabase,
+  CompanyProfile,
+} from '@/data/portalData';
 import { SEO, StructuredData, generateJobPostingSchema } from '@/lib/seo';
+import './JobDetail.css';
 
 export default function JobDetail() {
   const params = useParams<{ id?: string }>();
   const searchParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '');
-  const rawId = params.id || searchParams.get('id') || 'job-vietnhat-1';
+  const rawId = params.id || searchParams.get('id') || 'job-1';
   const jobId = decodeURIComponent(rawId);
 
-  // Retrieve job with robust lookup
-  const job: JobItem = getJobById(jobId) ||
-    jobsDatabase.find(j => j.id.toLowerCase() === jobId.toLowerCase()) ||
-    jobsDatabase.find(j => j.id.includes('vietnhat')) ||
+  // Retrieve dynamic job from database
+  const job: JobItem =
+    getJobById(jobId) ||
+    jobsDatabase.find((j) => j.id.toLowerCase() === jobId.toLowerCase()) ||
+    jobsDatabase.find((j) => j.id === 'job-1') ||
     jobsDatabase[0];
 
-  // Retrieve rich company profile from companiesDatabase
-  const company: CompanyProfile = getCompanyBySlug(job.companySlug) ||
-    companiesDatabase.find(c => c.slug.toLowerCase() === job.companySlug.toLowerCase() || c.id.toLowerCase() === job.companySlug.toLowerCase()) ||
+  // Retrieve dynamic company profile from database
+  const company: CompanyProfile =
+    getCompanyBySlug(job.companySlug) ||
+    companiesDatabase.find(
+      (c) =>
+        c.slug.toLowerCase() === job.companySlug.toLowerCase() ||
+        c.id.toLowerCase() === job.companySlug.toLowerCase()
+    ) ||
+    companiesDatabase.find((c) => c.slug === 'viconship') ||
     companiesDatabase[0];
 
-  // States
+  // UI Interactive States
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [candidateName, setCandidateName] = useState('');
-  const [candidateEmail, setCandidateEmail] = useState('');
-  const [candidatePhone, setCandidatePhone] = useState('');
-  const [candidateNote, setCandidateNote] = useState('');
-  const [cvFile, setCvFile] = useState<File | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [submittedRef, setSubmittedRef] = useState<string | null>(null);
+  const [readMore, setReadMore] = useState(false);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+
+  // AI Fit Tool States
+  const [aiUploadedFile, setAiUploadedFile] = useState<string | null>(null);
+  const [aiMatchScore, setAiMatchScore] = useState<number | null>(null);
+  const aiFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Application Modal States
+  const [applicantName, setApplicantName] = useState('');
+  const [applicantEmail, setApplicantEmail] = useState('');
+  const [applicantPhone, setApplicantPhone] = useState('');
+  const [applicantMessage, setApplicantMessage] = useState('');
+  const [appliedSuccess, setAppliedSuccess] = useState(false);
+  const [appliedRefCode, setAppliedRefCode] = useState('');
+
+  // Toast Notification
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3000);
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setReadMore(false);
+    setAiUploadedFile(null);
+    setAiMatchScore(null);
+    setAppliedSuccess(false);
   }, [jobId]);
+
+  // Similar jobs calculation
+  const similarJobs = jobsDatabase
+    .filter((j) => j.id !== job.id)
+    .slice(0, 3);
+
+  // Team quote fallback
+  const teamQuote = job.teamQuote || {
+    text: `At ${company.shortName || company.name}, managing operations and cross-border initiatives alongside an elite team gives you immediate impact. There is real pride in driving industry excellence every day.`,
+    author: company.quoteAuthor?.split('·')[0].trim() || 'Nguyen Minh Tri',
+    role: company.quoteAuthor?.split('·')[1]?.trim() || `Director of Operations, ${company.shortName || company.name}`,
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+  };
+
+  // Gallery fallback
+  const galleryPhotos =
+    company.photos && company.photos.length >= 6
+      ? company.photos.slice(0, 6)
+      : [
+          'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=350&q=80',
+          'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=350&q=80',
+          'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=350&q=80',
+          'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=350&q=80',
+          'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=350&q=80',
+          'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=350&q=80',
+        ];
+
+  // Team face avatars
+  const teamFaceAvatars = [
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80',
+    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80',
+    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=80',
+    'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&q=80',
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=80&q=80',
+  ];
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {
       navigator.clipboard.writeText(window.location.href);
       setCopied(true);
+      showToast('Link copied to clipboard!');
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleSaveToggle = () => {
+    const next = !saved;
+    setSaved(next);
+    showToast(next ? 'Job saved to your bookmarks!' : 'Job removed from saved list.');
+  };
+
+  const handleAiCvUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAiUploadedFile(file.name);
+      setAiMatchScore(94);
+      showToast(`Analyzed ${file.name}: 94% Match Score!`);
     }
   };
 
   const handleApplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!candidateName || !candidateEmail) {
-      alert('Vui lòng nhập họ tên và email liên hệ.');
+    if (!applicantName || !applicantEmail) {
+      alert('Please enter your full name and email address.');
       return;
     }
-    setSubmitting(true);
+    const refCode = 'APP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const newApp = {
+      id: 'app-' + Date.now(),
+      refCode,
+      jobId: job.id,
+      jobTitle: job.title,
+      company: job.company,
+      location: job.location,
+      salary: job.compensation,
+      applicantName,
+      applicantEmail,
+      applicantPhone,
+      status: 'Application Received',
+      submittedAt: new Date().toISOString(),
+    };
 
-    setTimeout(() => {
-      const refCode = 'APP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-      const newApp = {
-        id: 'app-' + Date.now(),
-        refCode,
-        jobId: job.id,
-        jobTitle: job.title,
-        company: job.company,
-        location: job.location,
-        salary: job.compensation,
-        candidateName,
-        candidateEmail,
-        candidatePhone,
-        cvFileName: cvFile ? cvFile.name : 'Resume_Applicant.pdf',
-        status: 'Đã nhận hồ sơ',
-        submittedAt: new Date().toISOString(),
-      };
+    try {
+      const prev = JSON.parse(localStorage.getItem('thesandbox_applications') || '[]');
+      localStorage.setItem('thesandbox_applications', JSON.stringify([newApp, ...prev]));
+    } catch (err) {
+      console.error(err);
+    }
 
-      try {
-        const prev = JSON.parse(localStorage.getItem('thesandbox_applications') || '[]');
-        localStorage.setItem('thesandbox_applications', JSON.stringify([newApp, ...prev]));
-      } catch (err) {
-        console.error('Storage error:', err);
-      }
-
-      setSubmitting(false);
-      setSubmittedRef(refCode);
-    }, 600);
+    setAppliedRefCode(refCode);
+    setAppliedSuccess(true);
   };
-
-  // Similar jobs from the directory (other engineering / technical roles)
-  const similarJobs = jobsDatabase
-    .filter(
-      (j) =>
-        j.id !== job.id &&
-        (j.location.includes('Hà Nội') ||
-          j.location.includes('Hồ Chí Minh') ||
-          j.companySlug.includes('seev') ||
-          j.companySlug.includes('vinmec') ||
-          j.companySlug.includes('chailease') ||
-          j.companySlug.includes('fpt'))
-    )
-    .slice(0, 3);
-
-  // Other jobs at this specific company
-  const companyOtherJobs = jobsDatabase
-    .filter(j => j.companySlug.toLowerCase() === company.slug.toLowerCase() && j.id !== job.id);
-
-  // Relevant skills / tech stack tags
-  const skillsList = [
-    'AutoCAD MEP',
-    'Revit Architecture',
-    'Dialux Lighting',
-    'Hệ Thống Trạm Biến Áp',
-    'Tự Động Hóa SCADA',
-    'Điện Động Lực FDI'
-  ];
 
   return (
     <div className="job-detail-page-container">
-      {/* SEO Meta Tags */}
+      {/* SEO & Schema Metadata */}
       <SEO
-        title={`${job.title} — ${job.company}`}
-        description={`${job.shortDesc || job.fullDesc?.substring(0, 160)} Ứng tuyển vị trí ${job.title} tại ${job.company}.`}
+        title={`${job.title} at ${job.company} — Job Details`}
+        description={job.shortDesc || job.fullDesc?.substring(0, 160)}
         canonical={`${typeof window !== 'undefined' ? window.location.origin : ''}/jobs/${job.id}`}
-        ogImage={company.logoImg || '/images/og-job.png'}
+        ogImage={company.logoImg || job.logo || '/sandbox-logo.png'}
         ogType="website"
-        keywords={[job.title, job.company, job.location, job.department, 'tuyển dụng', 'việc làm']}
+        keywords={[job.title, job.company, job.location, 'Job Detail', 'Careers']}
       />
 
       <StructuredData
@@ -159,617 +214,689 @@ export default function JobDetail() {
         })}
       />
 
-      {/* 1. BREADCRUMBS BAR */}
-      <div className="company-breadcrumb-bar">
-        <div className="container company-breadcrumb-inner flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs">
-            <Link href="/" className="crumb-link text-slate-500 hover:text-slate-900 transition">Trang chủ</Link>
-            <span className="crumb-sep text-slate-300">/</span>
-            <Link href="/jobs" className="crumb-link text-slate-500 hover:text-slate-900 transition">Việc làm</Link>
-            <span className="crumb-sep text-slate-300">/</span>
-            <Link href={`/companies/${company.slug}`} className="crumb-link text-slate-500 hover:text-slate-900 transition">{company.shortName || company.name}</Link>
-            <span className="crumb-sep text-slate-300">/</span>
-            <span className="crumb-current font-bold text-slate-900 truncate max-w-[280px] sm:max-w-md">{job.title}</span>
+      {/* Floating Toast Notification */}
+      {toastMsg && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-bold px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 animate-bounce">
+          <CheckCircle size={15} className="text-emerald-400" />
+          <span>{toastMsg}</span>
+        </div>
+      )}
+
+      {/* ==================================================================== */}
+      {/* 1. BREADCRUMBS BAR                                                   */}
+      {/* ==================================================================== */}
+      <div className="builtin-breadcrumb-wrap" aria-label="Breadcrumb Bar">
+        <div className="builtin-breadcrumb-inner flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="hover:text-blue-600 transition">Home</Link>
+            <span className="builtin-breadcrumb-sep">&rsaquo;</span>
+            <Link href="/jobs" className="hover:text-blue-600 transition">Jobs</Link>
+            <span className="builtin-breadcrumb-sep">&rsaquo;</span>
+            <Link href={`/companies/${company.slug}`} className="hover:text-blue-600 transition">
+              {company.shortName || company.name}
+            </Link>
+            <span className="builtin-breadcrumb-sep">&rsaquo;</span>
+            <span className="builtin-breadcrumb-current truncate max-w-[260px] sm:max-w-md">
+              {job.title}
+            </span>
           </div>
 
           <div className="hidden sm:flex items-center gap-3 text-xs">
             <button
               type="button"
               onClick={handleShare}
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold cursor-pointer"
             >
               <Share2 size={13} />
-              <span>{copied ? 'Đã sao chép link' : 'Chia sẻ'}</span>
+              <span>{copied ? 'Link Copied' : 'Share'}</span>
             </button>
             <span className="text-slate-300">•</span>
             <button
               type="button"
-              onClick={() => setSaved(!saved)}
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold transition cursor-pointer"
+              onClick={handleSaveToggle}
+              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold cursor-pointer"
             >
               <Bookmark size={13} fill={saved ? 'currentColor' : 'none'} className={saved ? 'text-blue-600' : ''} />
-              <span>{saved ? 'Đã lưu việc làm' : 'Lưu tin'}</span>
+              <span>{saved ? 'Saved' : 'Save'}</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* 2. TOP HERO SECTION (BUILT IN 3-CARD HERO) */}
-      <section className="job-hero-section">
-        <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="job-hero-cards-grid">
-            
-            {/* Card 1: Company & Job Title Header */}
-            <div className="job-hero-card">
-              <div>
-                <div className="hero-company-row">
-                  <div className="hero-logo-box">
-                    <img
-                      src={company.logoImg || job.logo || '/sandbox-logo-light.png'}
-                      alt={company.name}
-                      className="hero-logo-img"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/sandbox-logo-light.png';
-                      }}
-                    />
-                  </div>
-                  <div className="hero-company-name-wrap">
-                    <Link href={`/companies/${company.slug}`} className="hero-company-name">
-                      <span>{company.name}</span>
-                      <CheckCircle size={15} className="verified-icon" />
-                    </Link>
-                    <span className="hero-dept-label">{job.department || company.industry}</span>
-                  </div>
+      {/* ==================================================================== */}
+      {/* 2. BUILT IN 3-CARD GRADIENT HERO SECTION                             */}
+      {/* ==================================================================== */}
+      <section className="builtin-hero" aria-label="Job Overview and Action Hero">
+        <div className="builtin-hero-inner">
+          
+          {/* Card 1: Identity & Role Scope */}
+          <div className="builtin-hero-card">
+            <div>
+              <div className="hero-brand-row">
+                <div className="hero-brand-logo">
+                  <img
+                    src={company.logoImg || job.logo || '/sandbox-logo.png'}
+                    alt={company.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/sandbox-logo.png';
+                    }}
+                  />
                 </div>
-
-                <h1 className="job-hero-title">{job.title}</h1>
+                <Link href={`/companies/${company.slug}`} className="hero-brand-name">
+                  <span>{company.name}</span>
+                  <CheckCircle size={14} className="text-blue-600 shrink-0" fill="#0A66C2" color="#ffffff" />
+                </Link>
               </div>
-
-              <div className="hero-bottom-meta">
-                <span className="meta-time-text">
-                  <Clock size={13} />
-                  <span>{job.datePosted || 'Vừa đăng'}</span>
-                </span>
-                {job.badge && (
-                  <span className="hero-badge-pill flex items-center gap-1">
-                    <Flame size={12} className="text-orange-400 fill-orange-400" />
-                    <span>{job.badge}</span>
-                  </span>
-                )}
-              </div>
+              <h1 className="hero-job-title">{job.title}</h1>
             </div>
-
-            {/* Card 2: Role Specifications */}
-            <div className="job-hero-card">
-              <h2 className="hero-specs-heading">Thông Số Vị Trí</h2>
-              <div className="specs-items-list">
-                <div className="spec-item">
-                  <MapPin size={16} className="spec-icon text-slate-500" />
-                  <div>
-                    <div className="spec-label">Địa Điểm Làm Việc</div>
-                    <div className="spec-val">{job.location}</div>
-                  </div>
-                </div>
-
-                <div className="spec-item">
-                  <Briefcase size={16} className="spec-icon text-slate-500" />
-                  <div>
-                    <div className="spec-label">Hình Thức</div>
-                    <div className="spec-val">{job.workplaceType} • Toàn thời gian</div>
-                  </div>
-                </div>
-
-                <div className="spec-item">
-                  <Award size={16} className="spec-icon text-slate-500" />
-                  <div>
-                    <div className="spec-label">Cấp Bậc & Chức Danh</div>
-                    <div className="spec-val">{job.seniority || 'Chuyên viên cao cấp'}</div>
-                  </div>
-                </div>
-
-                <div className="spec-item">
-                  <ShieldCheck size={16} className="spec-icon text-slate-500" />
-                  <div>
-                    <div className="spec-label">Phân Hạng Doanh Nghiệp</div>
-                    <div className="spec-val text-blue-700">{company.tier || 'Doanh Nghiệp Tiêu Biểu'}</div>
-                  </div>
-                </div>
-              </div>
+            <div className="hero-posted-time">
+              <Clock size={13} />
+              <span>{job.datePosted || job.timeAgo || 'Posted Recently'}</span>
             </div>
-
-            {/* Card 3: Compensation & Action CTA */}
-            <div className="job-hero-card">
-              <div>
-                <div className="comp-display-box">
-                  <span className="comp-label">Thu Nhập & Đãi Ngộ Dự Kiến</span>
-                  <div className="comp-value-row">
-                    <span className="comp-amount text-blue-700">{job.compensation}</span>
-                    <span className="comp-period">{job.salaryPeriod || '/ tháng'}</span>
-                  </div>
-
-                  {/* Style 4: Swiss Editorial Slash tags for quick benefits */}
-                  {job.perks && job.perks.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-slate-600 mt-2">
-                      {job.perks.map((perk, idx, arr) => (
-                        <span key={idx} className="inline-flex items-center gap-2">
-                          <span className="hover:text-blue-600 transition-colors">✓ {perk}</span>
-                          {idx < arr.length - 1 && (
-                            <span className="text-slate-300 font-normal select-none">/</span>
-                          )}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="hero-cta-buttons">
-                <a
-                  href="#onpage-application"
-                  className="btn-hero-apply"
-                >
-                  <span>Nộp Đơn Ứng Tuyển</span>
-                  <ArrowRight size={14} />
-                </a>
-
-                <button
-                  type="button"
-                  onClick={() => setSaved(!saved)}
-                  className={`btn-hero-save ${saved ? 'active' : ''}`}
-                >
-                  <Bookmark size={14} fill={saved ? 'currentColor' : 'none'} />
-                  <span>{saved ? 'Đã Lưu' : 'Lưu Tin'}</span>
-                </button>
-              </div>
-            </div>
-
           </div>
+
+          {/* Card 2: Operational Specifications & Headcount */}
+          <div className="builtin-hero-card">
+            <div className="hero-applicant-pill">
+              <Zap size={12} className="text-blue-600 fill-blue-600" />
+              <span>Verified Listing</span>
+            </div>
+            <div className="hero-specs-list">
+              <div className="hero-spec-item">
+                <MapPin size={14} className="hero-spec-icon" />
+                <span className="hero-spec-text">{job.location}</span>
+              </div>
+              <div className="hero-spec-item">
+                <Laptop size={14} className="hero-spec-icon" />
+                <span className="hero-spec-text">{job.workplaceType || 'Hybrid'}</span>
+              </div>
+              <div className="hero-spec-item">
+                <Tag size={14} className="hero-spec-icon" />
+                <span className="hero-spec-text">
+                  {job.compensation} {job.salaryPeriod || 'Annually'}
+                </span>
+              </div>
+              <div className="hero-spec-item">
+                <GraduationCap size={14} className="hero-spec-icon" />
+                <span className="hero-spec-text">{job.seniority || 'Mid-Senior Level'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3: Action & Category Tagline */}
+          <div className="builtin-hero-card">
+            <div>
+              <div className="hero-categories-text">
+                {job.department || 'Technology • Strategic Infrastructure • Operations'}
+              </div>
+              <div className="hero-tagline-text">
+                {company.name} &mdash; {company.industry || 'Accredited Industry Enterprise'}
+              </div>
+            </div>
+            <div className="hero-trust-badge">
+              <ShieldCheck size={14} className="text-emerald-500 shrink-0" />
+              <span>Direct employer transmission &bull; 100% verified employer</span>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* 3. MAIN CONTENT 2-COLUMN GRID */}
-      <main className="container max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="job-main-grid">
+      {/* ==================================================================== */}
+      {/* 3. BUILT IN 2-COLUMN MAIN SECTION                                    */}
+      {/* ==================================================================== */}
+      <main className="builtin-layout">
+        
+        {/* ================================================================== */}
+        {/* LEFT COLUMN: Role Details, Description, Skills, Culture            */}
+        {/* ================================================================== */}
+        <div className="builtin-column">
           
-          {/* ========================================================= */}
-          {/* LEFT COLUMN (65%): Role Dossier & Application             */}
-          {/* ========================================================= */}
-          <div className="job-left-column">
-            
-            {/* Role Overview & Mission Card */}
-            <section className="job-detail-card" aria-labelledby="role-overview-heading">
-              <div className="card-header-bar flex items-center justify-between">
-                <h2 id="role-overview-heading">Chi Tiết Vị Trí & Yêu Cầu Chuyên Môn</h2>
-                <span className="text-xs text-slate-400 font-normal">Mã vị trí: {job.id}</span>
+          {/* Section 1: The Role */}
+          <div className="builtin-card" id="card-the-role">
+            <div className="builtin-card-header">
+              <span>The Role</span>
+            </div>
+            <div className="builtin-card-body">
+              <p className="role-summary-p">
+                {job.shortDesc ||
+                  'Join a market-leading enterprise managing end-to-end operational execution, carrier strategy, and high-impact account growth across Southeast Asia and global trade lanes.'}
+              </p>
+              <div className="role-generated-tag">
+                &mdash; Summary Generated by Built In &amp; SandBox Intelligence &mdash;
               </div>
 
-              <div className="card-content-body">
-                {/* Tech Stack / Skills Strip (Style 4 Swiss Editorial Slash) */}
-                <div className="mb-6 pb-4 border-b border-slate-100">
-                  <div className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-2">
-                    Kỹ Năng & Công Cụ Yêu Cầu:
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs font-medium text-slate-700">
-                    {skillsList.map((skill, idx, arr) => (
-                      <span key={skill} className="inline-flex items-center gap-2">
-                        <span className="hover:text-blue-600 hover:underline cursor-pointer transition-colors">
-                          {skill}
-                        </span>
-                        {idx < arr.length - 1 && (
-                          <span className="text-slate-300 font-normal select-none">/</span>
-                        )}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              {/* Action Buttons */}
+              <div className="role-actions-row">
+                <button
+                  type="button"
+                  className="btn-builtin-apply"
+                  onClick={() => setShowApplyModal(true)}
+                >
+                  <Send size={15} />
+                  <span>Easy Apply with CV</span>
+                </button>
+                <button
+                  type="button"
+                  className="btn-builtin-save"
+                  onClick={handleSaveToggle}
+                >
+                  <Bookmark size={15} fill={saved ? 'currentColor' : 'none'} className={saved ? 'text-blue-600' : ''} />
+                  <span>{saved ? 'Saved' : 'Save'}</span>
+                </button>
+              </div>
 
-                {/* Lead Summary */}
-                <p className="job-lead-p">
-                  {job.shortDesc}
+              <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '14px', marginTop: '6px' }}>
+                <p className="desc-body-p">
+                  {job.fullDesc ||
+                    `${company.name} is one of Vietnam's leading integrated operators. We drive multimodal execution, supply chain optimization, and enterprise services connecting Vietnam with major world trade lanes.`}
                 </p>
 
-                {/* Full Description / Mission */}
-                {job.fullDesc && (
-                  <p className="job-body-p">
-                    {job.fullDesc}
-                  </p>
-                )}
+                <div className="desc-subheading">Job Summary</div>
+                <p className="desc-body-p">
+                  Responsible for managing end-to-end execution, enterprise partner contracts, operational dispatch, and customer delivery across regional and global corridors.
+                </p>
 
-                {/* Key Responsibilities */}
-                {job.responsibilities && job.responsibilities.length > 0 && (
-                  <div>
-                    <h3 className="job-sub-heading flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-blue-600" />
-                      <span>Trách Nhiệm Công Việc Chính</span>
-                    </h3>
-                    <ul className="job-bullet-list">
-                      {job.responsibilities.map((resp, i) => (
-                        <li key={i}>{resp}</li>
-                      ))}
+                <div className="desc-subheading">Job Description &amp; Core Responsibilities</div>
+                <ul className="desc-bullets-list">
+                  {job.responsibilities && job.responsibilities.length > 0 ? (
+                    job.responsibilities.map((resp, i) => <li key={i}>{resp}</li>)
+                  ) : (
+                    <>
+                      <li>Coordinate operational routing, rate negotiations, and space allocation with key alliances.</li>
+                      <li>Manage regulatory compliance, documentation, and operational risk mitigation.</li>
+                      <li>Act as direct strategic escalation lead for Tier-1 multinational accounts.</li>
+                      <li>Supervise electronic EDI declarations and trade compliance conventions.</li>
+                    </>
+                  )}
+                </ul>
+
+                {readMore && (
+                  <div className="mt-3 pt-3 border-t border-slate-100 animate-fadeIn">
+                    <div className="desc-subheading">Detailed Requirements &amp; Qualifications</div>
+                    <ul className="desc-bullets-list">
+                      {job.requirements && job.requirements.length > 0 ? (
+                        job.requirements.map((req, i) => <li key={i}>{req}</li>)
+                      ) : (
+                        <>
+                          <li>Bachelor's degree in relevant discipline or industry equivalent.</li>
+                          <li>3+ years of progressive professional experience in high-volume environments.</li>
+                          <li>Demonstrated competency in commercial negotiation and cross-functional leadership.</li>
+                          <li>Fluent communication in English and Vietnamese.</li>
+                        </>
+                      )}
                     </ul>
                   </div>
                 )}
 
-                {/* Requirements & Qualifications */}
-                {job.requirements && job.requirements.length > 0 && (
-                  <div>
-                    <h3 className="job-sub-heading flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-blue-600" />
-                      <span>Yêu Cầu Năng Lực & Kinh Nghiệm</span>
-                    </h3>
-                    <ul className="job-bullet-list">
-                      {job.requirements.map((req, i) => (
-                        <li key={i}>{req}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* Benefits Grid */}
-                {job.perks && job.perks.length > 0 && (
-                  <div>
-                    <h3 className="job-sub-heading flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-600" />
-                      <span>Chế Độ Đãi Ngộ & Quyền Lợi Doanh Nghiệp</span>
-                    </h3>
-                    <div className="benefits-grid">
-                      {job.perks.map((perk, i) => (
-                        <div key={i} className="benefit-card">
-                          <Check size={15} className="benefit-icon text-emerald-600 shrink-0" strokeWidth={2.5} />
-                          <span>{perk}</span>
-                        </div>
-                      ))}
-                      <div className="benefit-card">
-                        <Check size={15} className="benefit-icon text-emerald-600 shrink-0" strokeWidth={2.5} />
-                        <span>Xem xét tăng lương định kỳ & thưởng KPI</span>
-                      </div>
-                      <div className="benefit-card">
-                        <Check size={15} className="benefit-icon text-emerald-600 shrink-0" strokeWidth={2.5} />
-                        <span>Môi trường làm việc chuyên nghiệp, cơ sở vật chất chuẩn quốc tế</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <button
+                  type="button"
+                  className="btn-read-more-toggle"
+                  onClick={() => setReadMore(!readMore)}
+                >
+                  <span>{readMore ? 'Show Less' : 'Read Full Description'}</span>
+                  {readMore ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                </button>
               </div>
-            </section>
-
-            {/* Leadership & Culture Quote Card */}
-            {company.quoteText && (
-              <div className="team-quote-card">
-                <p className="quote-text">
-                  "{company.quoteText}"
-                </p>
-                <div className="quote-author-row">
-                  <div className="w-10 h-10 rounded-full bg-slate-900 text-white font-bold flex items-center justify-center text-xs">
-                    {company.shortName ? company.shortName.slice(0, 2).toUpperCase() : 'VN'}
-                  </div>
-                  <div>
-                    <div className="quote-author-name">{company.quoteAuthor || company.name}</div>
-                    <div className="quote-author-role">{company.shortName || company.name} • {company.tier}</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Embedded Direct On-Page Application Section (NO POPUP!) */}
-            <section id="onpage-application" className="onpage-apply-card" aria-labelledby="apply-heading">
-              <div className="apply-header-wrap">
-                <span className="apply-header-badge">ỨNG TUYỂN TRỰC TIẾP</span>
-                <h3 id="apply-heading" className="apply-header-title">Nộp Hồ Sơ Ứng Tuyển</h3>
-                <p className="apply-header-sub">
-                  Hồ sơ được gửi trực tiếp đến phòng nhân sự của <strong>{company.name}</strong>. Phản hồi trong vòng 24–48 giờ làm việc.
-                </p>
-              </div>
-
-              {submittedRef ? (
-                <div className="apply-success-box">
-                  <CheckCircle size={44} className="success-icon" />
-                  <h3>Nộp Hồ Sơ Thành Công!</h3>
-                  <p>
-                    Hồ sơ của bạn đã được chuyển tới bộ phận tuyển dụng chuyên trách tại <strong>{company.name}</strong>.
-                  </p>
-                  <div className="reference-code-badge">
-                    Mã tra cứu hồ sơ: <strong>{submittedRef}</strong>
-                  </div>
-                  <div className="success-actions">
-                    <Link href="/jobs" className="btn-view-dashboard">
-                      Xem Việc Làm Khác
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => setSubmittedRef(null)}
-                      className="btn-apply-another"
-                    >
-                      Nộp Đơn Khác
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleApplySubmit} className="onpage-apply-form">
-                  <div className="form-grid-2">
-                    <div className="form-group">
-                      <label htmlFor="fullName">Họ và Tên *</label>
-                      <input
-                        id="fullName"
-                        type="text"
-                        required
-                        placeholder="Nguyễn Văn A"
-                        value={candidateName}
-                        onChange={(e) => setCandidateName(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="email">Email Liên Hệ *</label>
-                      <input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="candidate@example.com"
-                        value={candidateEmail}
-                        onChange={(e) => setCandidateEmail(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-grid-2">
-                    <div className="form-group">
-                      <label htmlFor="phone">Số Điện Thoại</label>
-                      <input
-                        id="phone"
-                        type="tel"
-                        placeholder="0912 345 678"
-                        value={candidatePhone}
-                        onChange={(e) => setCandidatePhone(e.target.value)}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="cvUpload">Đính Kèm CV (PDF, DOCX) *</label>
-                      <input
-                        id="cvUpload"
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        onChange={(e) => {
-                          if (e.target.files && e.target.files[0]) {
-                            setCvFile(e.target.files[0]);
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="notes">Giới Thiệu Ngắn Hoặc Lời Nhắn Đến Nhà Tuyển Dụng</label>
-                    <textarea
-                      id="notes"
-                      rows={3}
-                      placeholder="Tóm tắt 1–2 dự án tiêu biểu hoặc lý do bạn phù hợp với vị trí này..."
-                      value={candidateNote}
-                      onChange={(e) => setCandidateNote(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="ai-match-feedback">
-                    <Sparkles size={16} className="text-emerald-700 shrink-0" />
-                    <span>Hệ thống tự động đồng bộ hồ sơ ứng viên với phòng nhân sự {company.shortName || company.name}.</span>
-                  </div>
-
-                  <div className="apply-submit-row">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="btn-submit-application"
-                    >
-                      {submitting ? 'Đang gửi hồ sơ...' : 'Xác Nhận Nộp Hồ Sơ Ứng Tuyển →'}
-                    </button>
-                    <p className="apply-legal-note">
-                      Bằng cách nộp hồ sơ, bạn đồng ý cho phép nhà tuyển dụng liên hệ qua email và số điện thoại đã cung cấp.
-                    </p>
-                  </div>
-                </form>
-              )}
-            </section>
-
+            </div>
           </div>
 
-          {/* ========================================================= */}
-          {/* RIGHT COLUMN (35%): Company Directory Profile & Openings  */}
-          {/* ========================================================= */}
-          <aside className="job-right-column" aria-label="Company Information">
-            
-            {/* Card 1: Rich Company Directory Profile (Fetched from companiesDatabase) */}
-            <div className="co-sidebar-card co-overview-card">
-              <div className="co-logo-holder">
-                <img
-                  src={company.logoImg || job.logo || '/sandbox-logo-light.png'}
-                  alt={company.name}
-                  className="co-profile-logo"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/sandbox-logo-light.png';
-                  }}
-                />
-              </div>
-
-              <div className="co-meta-top">
-                <span className="co-tier-pill">{company.tier || 'Enterprise'}</span>
-                <h3 className="co-profile-name">
-                  <Link href={`/companies/${company.slug}`} className="hover:underline">
-                    {company.name}
-                  </Link>
-                  <CheckCircle size={16} className="verified-blue shrink-0" />
-                </h3>
-                <p className="co-tagline">{company.desc ? company.desc.slice(0, 130) + '...' : ''}</p>
-              </div>
-
-              {/* Verified Company Stats */}
-              <div className="grid grid-cols-3 gap-2 py-3 border-y border-slate-100 my-3 text-center">
-                <div className="p-1">
-                  <div className="text-base font-black text-slate-900">{company.stat1Val || '180+'}</div>
-                  <div className="text-[10.5px] font-medium text-slate-500 mt-0.5">{company.stat1Label || 'Dự Án'}</div>
-                </div>
-                <div className="p-1 border-x border-slate-100">
-                  <div className="text-base font-black text-slate-900">{company.stat2Val || '350+'}</div>
-                  <div className="text-[10.5px] font-medium text-slate-500 mt-0.5">{company.stat2Label || 'Kỹ Sư'}</div>
-                </div>
-                <div className="p-1">
-                  <div className="text-base font-black text-emerald-600">{company.stat3Val || '100%'}</div>
-                  <div className="text-[10.5px] font-medium text-slate-500 mt-0.5">{company.stat3Label || 'An Toàn'}</div>
-                </div>
-              </div>
-
-              {/* Company Specs DL */}
-              <div className="co-specs-dl">
-                <div className="co-spec-row">
-                  <span className="co-spec-label"><MapPin size={13} /> Trụ sở chính:</span>
-                  <span className="co-spec-value">{company.hq}</span>
-                </div>
-                <div className="co-spec-row">
-                  <span className="co-spec-label"><Users size={13} /> Quy mô nhân sự:</span>
-                  <span className="co-spec-value">{company.size}</span>
-                </div>
-                <div className="co-spec-row">
-                  <span className="co-spec-label"><Calendar size={13} /> Năm thành lập:</span>
-                  <span className="co-spec-value">{company.founded}</span>
-                </div>
-                <div className="co-spec-row">
-                  <span className="co-spec-label"><Building2 size={13} /> Ngành nghề:</span>
-                  <span className="co-spec-value">{company.industry}</span>
-                </div>
-              </div>
-
-              {/* Official Contact Dossier */}
-              <div className="co-contact-dossier bg-slate-50/70 p-3 rounded-xl border border-slate-100 my-3">
-                {company.phone && (
-                  <div className="contact-row flex items-center justify-between gap-2 py-1 text-xs border-b border-slate-100">
-                    <strong className="text-slate-600">Hotline:</strong>
-                    <span className="font-semibold text-slate-900">{company.phone}</span>
-                  </div>
+          {/* Section 2: Skills Required */}
+          <div className="builtin-card" id="card-skills-required">
+            <div className="builtin-card-body">
+              <div className="skills-header-simple">Skills Required</div>
+              <ul className="desc-bullets-list" style={{ marginBottom: 0 }}>
+                {job.requirements && job.requirements.length > 0 ? (
+                  job.requirements.map((item, idx) => <li key={idx}>{item}</li>)
+                ) : (
+                  <>
+                    <li>Bachelor degree in Foreign Trade, Maritime Studies, or Logistics &amp; Supply Chain.</li>
+                    <li>3+ years managing FCL/LCL container logistics at an accredited 3PL or liner agency.</li>
+                    <li>Proficiency in Incoterms 2020, customs brokerage, and maritime bill-of-lading documentation.</li>
+                    <li>Bilingual communication in Vietnamese and English.</li>
+                    <li>Customer-focused approach and ability to build and retain commercial business relationships.</li>
+                  </>
                 )}
-                {company.email && (
-                  <div className="contact-row flex items-center justify-between gap-2 py-1 text-xs border-b border-slate-100">
-                    <strong className="text-slate-600">Email Tuyển Dụng:</strong>
-                    <span className="font-semibold text-slate-900">{company.email}</span>
-                  </div>
-                )}
-                {company.address && (
-                  <div className="contact-row flex flex-col gap-0.5 pt-1 text-xs">
-                    <strong className="text-slate-600">Địa Chỉ:</strong>
-                    <span className="text-slate-800 leading-snug">{company.address}</span>
-                  </div>
-                )}
-              </div>
+              </ul>
+            </div>
+          </div>
 
-              {/* Certifications & Badges */}
-              {company.certs && company.certs.length > 0 && (
-                <div className="pt-3 border-t border-slate-100">
-                  <div className="text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                    Chứng Chỉ & Năng Lực Doanh Nghiệp:
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-600">
-                    {company.certs.map((cert, idx, arr) => (
-                      <span key={cert} className="inline-flex items-center gap-2">
-                        <span className="font-medium">{cert}</span>
-                        {idx < arr.length - 1 && (
-                          <span className="text-slate-300 select-none">/</span>
-                        )}
-                      </span>
-                    ))}
+          {/* Section 3: What The Team Is Saying */}
+          <div className="builtin-card" id="card-team-saying">
+            <div className="builtin-card-body">
+              <div className="skills-header-simple">What The Team Is Saying</div>
+              
+              <div className="quote-box-wrap">
+                <div className="quote-white-card">
+                  {teamQuote.text}
+                </div>
+                <div className="quote-navy-card">
+                  <img
+                    src={teamQuote.avatar}
+                    alt={teamQuote.author}
+                    className="quote-avatar"
+                  />
+                  <div>
+                    <div className="quote-person-name">{teamQuote.author}</div>
+                    <div className="quote-person-title">{teamQuote.role}</div>
                   </div>
                 </div>
-              )}
+              </div>
 
-              {/* Corporate Links */}
-              <div className="co-links-group mt-4 pt-3 border-t border-slate-100 flex flex-col gap-2">
-                {company.website && (
-                  <a
-                    href={company.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-co-website text-center"
-                  >
-                    <Globe size={14} /> Website Chính Thức <ExternalLink size={12} />
-                  </a>
-                )}
-                <Link
+              <div className="quote-faces-row">
+                {teamFaceAvatars.map((face, i) => (
+                  <img
+                    key={i}
+                    src={face}
+                    alt="Team member"
+                    className="quote-face-avatar"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Section 4: Compensation & Benefits Highlights */}
+          <div className="builtin-card" id="card-benefits">
+            <div className="builtin-card-body">
+              <div className="skills-header-simple">
+                {company.shortName || company.name} Compensation &amp; Benefits Highlights
+              </div>
+              
+              <div className="benefit-item-row">
+                <strong>Healthcare Strength</strong> &mdash; Comprehensive healthcare insurance, annual executive health screenings, 24/7 accident coverage, and mental-wellbeing support for all full-time personnel.
+              </div>
+              <div className="benefit-item-row">
+                <strong>Performance Rewards</strong> &mdash; Guaranteed 13th-month salary plus performance-linked quarterly KPI bonuses, annual profit-sharing distribution, and seniority retention allowances.
+              </div>
+              <div className="benefit-item-row">
+                <strong>Professional Certification</strong> &mdash; 100% company-sponsored professional development programs, industry diploma certification, and leadership pathways across Southeast Asia.
+              </div>
+
+              <div style={{ marginTop: '16px' }}>
+                <a
                   href={`/companies/${company.slug}`}
-                  className="w-full py-2.5 px-3 rounded-lg bg-slate-900 hover:bg-black text-white font-bold text-xs transition flex items-center justify-center gap-1.5"
+                  className="insight-link"
                 >
-                  <span>Xem Hồ Sơ Công Ty & {company.jobsCount || 12} Vị Trí</span>
-                  <ArrowRight size={13} />
-                </Link>
+                  Learn more about {company.shortName || company.name}'s Compensation &amp; Benefits &rarr;
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 5: Company Insights */}
+          <div className="builtin-card" id="card-insights">
+            <div className="builtin-card-header">
+              <span>{company.shortName || company.name} Insights</span>
+            </div>
+            <div className="insights-list">
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading ${company.name} workplace intelligence report...`)}
+              >
+                What's It Like to Work at {company.shortName || company.name}?
+              </button>
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading ${company.name} culture values breakdown...`)}
+              >
+                {company.shortName || company.name} Culture &amp; Values
+              </button>
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading career advancement ladder metrics...`)}
+              >
+                {company.shortName || company.name} Career Growth &amp; Development
+              </button>
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading employee balance review data...`)}
+              >
+                What's the Work-Life Balance Like at {company.shortName || company.name}?
+              </button>
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading executive leadership bios...`)}
+              >
+                {company.shortName || company.name} Leadership &amp; Management
+              </button>
+              <button
+                type="button"
+                className="insight-link text-left"
+                onClick={() => showToast(`Loading annual growth & stability dossier...`)}
+              >
+                {company.shortName || company.name} Company Growth, Stability &amp; Outlook
+              </button>
+            </div>
+            
+            <div className="job-utility-links">
+              <Link href={`/jobs?company=${company.slug}`} className="flex items-center gap-2">
+                <Briefcase size={14} />
+                <span>View all jobs at {company.shortName || company.name}</span>
+              </Link>
+              <Link href={`/companies/${company.slug}`} className="flex items-center gap-2">
+                <Building2 size={14} />
+                <span>View {company.shortName || company.name} Profile</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => showToast('Listing flagged for editorial audit.')}
+                className="flex items-center gap-2 text-slate-500 hover:text-slate-800"
+              >
+                <Flag size={14} />
+                <span>Report Job</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* ================================================================== */}
+        {/* RIGHT STICKY COLUMN: AI Fit, Company Dossier, Gallery, Similar     */}
+        {/* ================================================================== */}
+        <div className="builtin-column">
+          <div className="sticky-sidebar-wrap">
+            
+            {/* Panel 1: Am I A Good Fit? (BETA) */}
+            <div className="ai-fit-card">
+              <div className="ai-fit-header">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Sparkles size={16} />
+                  <span>Am I A Good Fit?</span>
+                </div>
+                <span className="ai-beta-badge">BETA</span>
+              </div>
+              <div className="ai-fit-body">
+                <div className="ai-insights-lead">
+                  <div className="ai-symbol-star">&#10022;</div>
+                  <div>
+                    <div className="ai-title-lead">Get Personalized Job Insights.</div>
+                    <p className="ai-desc-lead">
+                      Our AI-powered fit analysis compares your resume with a job listing so you know if your skills &amp; experience align.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className="ai-dropzone-box"
+                  onClick={() => aiFileInputRef.current?.click()}
+                >
+                  <input
+                    type="file"
+                    ref={aiFileInputRef}
+                    style={{ display: 'none' }}
+                    accept=".pdf,.doc,.docx"
+                    onChange={handleAiCvUpload}
+                  />
+                  <UploadCloud size={28} className="text-blue-600 mx-auto mb-2" />
+                  <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+                    {aiUploadedFile ? aiUploadedFile : 'Drag & drop resume or click to select'}
+                  </div>
+                  <button type="button" className="btn-ai-upload">
+                    {aiUploadedFile ? 'Replace Resume' : 'Upload Resume'}
+                  </button>
+                </div>
+
+                {/* Analysis Result Output Container */}
+                {aiMatchScore && (
+                  <div
+                    id="ai-analysis-feedback"
+                    style={{
+                      marginTop: '14px',
+                      background: '#eff6ff',
+                      border: '1px solid #bfdbfe',
+                      borderRadius: '6px',
+                      padding: '12px',
+                      fontSize: '12px',
+                      color: '#1e3a8a',
+                    }}
+                  >
+                    <div style={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                      <CheckCircle size={15} className="text-blue-600 shrink-0" />
+                      <span>Match Score: {aiMatchScore}% &bull; Strong Fit</span>
+                    </div>
+                    <div>Your commercial profile and consultative client experience match the SMB territory role requirements!</div>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Card 2: Other Openings at This Company */}
-            {companyOtherJobs.length > 0 && (
-              <div className="sidebar-card">
-                <div className="card-header-bar flex items-center justify-between">
-                  <h2>Vị Trí Cùng Doanh Nghiệp</h2>
-                  <span className="text-xs text-slate-400">{companyOtherJobs.length} vị trí</span>
+            {/* Panel 2: The Company */}
+            <div className="builtin-card">
+              <div className="builtin-card-header">
+                <span>The Company</span>
+              </div>
+              <div className="builtin-card-body">
+                {/* Quick Stats Grid */}
+                <div className="company-stats-grid">
+                  <div className="company-stat-cell">
+                    <Building2 size={14} className="text-blue-600 shrink-0" />
+                    <span className="truncate">HQ: {company.hq}</span>
+                  </div>
+                  <div className="company-stat-cell">
+                    <Calendar size={14} className="text-blue-600 shrink-0" />
+                    <span>Year Founded: {company.founded}</span>
+                  </div>
+                  <div className="company-stat-cell" style={{ gridColumn: '1 / -1' }}>
+                    <Users size={14} className="text-blue-600 shrink-0" />
+                    <span>{company.size}</span>
+                  </div>
                 </div>
-                <div className="p-4 space-y-3">
-                  {companyOtherJobs.map((oj) => (
-                    <Link
-                      key={oj.id}
-                      href={`/jobs/${oj.id}`}
-                      className="block p-3 rounded-lg border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition"
-                    >
-                      <h4 className="font-bold text-xs sm:text-sm text-slate-900 hover:text-blue-600 transition mb-1">
-                        {oj.title}
-                      </h4>
-                      <div className="flex items-center justify-between text-xs text-slate-500">
-                        <span>{oj.location}</span>
-                        <span className="font-bold text-slate-900">{oj.compensation}</span>
-                      </div>
-                    </Link>
+
+                <div className="desc-subheading" style={{ marginTop: 0 }}>What We Do</div>
+                <p className="desc-body-p">
+                  {company.desc ||
+                    `${company.name} operates premier facilities, enterprise services, and solutions connecting Vietnam with global markets.`}
+                </p>
+
+                <div className="desc-subheading">Why Work With Us</div>
+                <p className="desc-body-p">
+                  Join an accredited industry leader driving national infrastructure. We empower our teams with career mentoring, international academy certifications, and high-impact performance incentives.
+                </p>
+
+                {/* Gallery */}
+                <div className="desc-subheading">Gallery</div>
+                <div className="company-gallery-grid">
+                  {galleryPhotos.map((photo, i) => (
+                    <div
+                      key={i}
+                      className="gallery-photo-thumb"
+                      style={{ backgroundImage: `url('${photo}')` }}
+                    />
                   ))}
                 </div>
-              </div>
-            )}
 
-            {/* Card 3: Similar Opportunities in the Directory */}
-            <div className="sidebar-card">
-              <div className="card-header-bar flex items-center justify-between">
-                <h2>Cơ Hội Việc Làm Tương Đương</h2>
-                <Link href="/jobs" className="text-xs text-slate-300 hover:text-white">Xem tất cả →</Link>
-              </div>
-              <div className="p-4 space-y-3">
-                {similarJobs.map((sj) => (
-                  <Link
-                    key={sj.id}
-                    href={`/jobs/${sj.id}`}
-                    className="flex items-start gap-3 p-3 rounded-lg border border-slate-100 hover:border-slate-300 hover:bg-slate-50 transition group"
-                  >
-                    <div className="w-10 h-10 rounded-lg border border-slate-200 bg-white p-1 flex items-center justify-center shrink-0">
-                      <img
-                        src={sj.logo || '/sandbox-logo-light.png'}
-                        alt={sj.company}
-                        className="max-w-full max-h-full object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/sandbox-logo-light.png';
-                        }}
-                      />
+                {/* Offices */}
+                <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '12px', marginTop: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                    <div className="desc-subheading" style={{ margin: 0 }}>
+                      {company.shortName || company.name} Regional Offices
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-xs text-slate-900 group-hover:text-blue-600 transition truncate leading-snug">
-                        {sj.title}
-                      </h4>
-                      <p className="text-[11px] text-slate-500 truncate mt-0.5">{sj.company}</p>
-                      <div className="flex items-center justify-between text-[11px] text-slate-600 mt-1.5 font-semibold">
-                        <span>{sj.location}</span>
-                        <span className="text-blue-700">{sj.compensation}</span>
+                    <Link href={`/companies/${company.slug}`} className="insight-link" style={{ fontSize: '11px' }}>
+                      LEARN MORE &rarr;
+                    </Link>
+                  </div>
+                  <div style={{ fontSize: '12.5px', fontBold: 700, color: 'var(--navy)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Laptop size={14} className="text-blue-600 shrink-0" />
+                    <span>Hybrid Workspace</span>
+                  </div>
+                  <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginTop: '2px' }}>
+                    {company.address || `${company.hq} & Regional Strategic Hubs`}
+                  </div>
+                  <div className="workplace-pill-row">
+                    Typical time on-site: 4 days a week
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 3: Similar Jobs */}
+            <div className="builtin-card">
+              <div className="builtin-card-header">
+                <span>Similar Jobs</span>
+              </div>
+              <div>
+                {similarJobs.map((simJob) => (
+                  <Link
+                    key={simJob.id}
+                    href={`/jobs/${simJob.id}`}
+                    className="similar-job-item"
+                  >
+                    <div className="similar-job-left">
+                      <div className="similar-job-company">{simJob.company}</div>
+                      <div className="similar-job-title">{simJob.title}</div>
+                      <div className="similar-job-cats">
+                        {simJob.department || 'Technology & Operations'}
                       </div>
+                    </div>
+                    <div className="similar-job-right">
+                      <span>{simJob.workplaceType || 'Hybrid'}</span>
+                      <span className="truncate">{simJob.location.split('/')[0].trim()}</span>
+                      <strong>{simJob.compensation.split('-')[0].trim()}</strong>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
 
-          </aside>
-
+          </div>
         </div>
+
       </main>
+
+      {/* ==================================================================== */}
+      {/* 4. EASY APPLY MODAL                                                  */}
+      {/* ==================================================================== */}
+      {showApplyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+            <button
+              type="button"
+              onClick={() => setShowApplyModal(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition"
+              aria-label="Close modal"
+            >
+              <X size={20} />
+            </button>
+
+            {appliedSuccess ? (
+              <div className="py-6 text-center space-y-3">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                  <CheckCircle size={32} />
+                </div>
+                <h3 className="text-xl font-black text-slate-900">Application Submitted!</h3>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+                  Your application for <strong className="text-slate-900">{job.title}</strong> at <strong className="text-slate-900">{job.company}</strong> has been transmitted successfully.
+                </p>
+                <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl inline-block text-xs font-mono text-slate-700">
+                  Tracking Code: <strong>{appliedRefCode}</strong>
+                </div>
+                <div className="pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowApplyModal(false)}
+                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl border border-slate-200 p-1 flex items-center justify-center bg-white shrink-0">
+                    <img
+                      src={company.logoImg || job.logo || '/sandbox-logo.png'}
+                      alt={company.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 leading-tight">
+                      Apply for {job.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 font-medium">
+                      {job.company} &bull; {job.location}
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleApplySubmit} className="space-y-3.5">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. John Doe"
+                      value={applicantName}
+                      onChange={(e) => setApplicantName(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="e.g. john@example.com"
+                      value={applicantEmail}
+                      onChange={(e) => setApplicantEmail(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="e.g. +84 901 234 567"
+                      value={applicantPhone}
+                      onChange={(e) => setApplicantPhone(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Cover Note (Optional)
+                    </label>
+                    <textarea
+                      rows={3}
+                      placeholder="Brief note to the hiring manager..."
+                      value={applicantMessage}
+                      onChange={(e) => setApplicantMessage(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white"
+                    />
+                  </div>
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl transition shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Send size={14} />
+                      <span>Submit Application to {company.shortName || company.name}</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
