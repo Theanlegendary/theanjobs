@@ -68,6 +68,12 @@ export default function App() {
       </Route>
 
       {/* Dedicated Job Detail Pages (No popup modals!) */}
+      <Route path="/job/:slug/:id">
+        <PageShell><JobDetail /></PageShell>
+      </Route>
+      <Route path="/jobs/:slug/:id">
+        <PageShell><JobDetail /></PageShell>
+      </Route>
       <Route path="/jobs/:id">
         <PageShell><JobDetail /></PageShell>
       </Route>
