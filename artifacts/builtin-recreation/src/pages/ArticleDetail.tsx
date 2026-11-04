@@ -128,13 +128,31 @@ export default function ArticleDetail() {
             ))}
 
             {/* Operational Specs KPI Card */}
+            {/* Operational Specs KPI Card - Borderless, Modern, Elevated */}
             {article.statCard && (
               <div className="editorial-stat-card">
-                <h4 className="stat-card-title">{article.statCard.title}</h4>
+                <div className="stat-card-top-bar">
+                  <div className="stat-card-badge">
+                    <TrendingUp size={16} className="stat-badge-icon" />
+                    <span className="stat-card-title">{article.statCard.title}</span>
+                  </div>
+                  <span className="stat-card-tag">Benchmark Intelligence</span>
+                </div>
                 <div className="stat-card-metrics-grid">
                   {article.statCard.stats.map((s, i) => (
                     <div key={i} className="stat-metric-cell">
-                      <strong className="stat-metric-val">{s.value}</strong>
+                      <div className="stat-metric-header">
+                        <strong className="stat-metric-val">{s.value}</strong>
+                        {s.value.startsWith('+') && (
+                          <span className="stat-trend-pill positive">Growth</span>
+                        )}
+                        {s.value.includes('x') && (
+                          <span className="stat-trend-pill multiplier">Multiplier</span>
+                        )}
+                        {s.value.includes('$') && (
+                          <span className="stat-trend-pill package">Tier 1</span>
+                        )}
+                      </div>
                       <span className="stat-metric-lbl">{s.label}</span>
                     </div>
                   ))}
@@ -145,8 +163,9 @@ export default function ArticleDetail() {
             {/* Blockquote Callout */}
             {article.quote && (
               <blockquote className="editorial-quote-box">
-                <p className="editorial-quote-p">"{article.quote.text}"</p>
-                <cite className="editorial-quote-cite">{article.quote.cite}</cite>
+                <div className="editorial-quote-decor">“</div>
+                <p className="editorial-quote-p">{article.quote.text}</p>
+                <cite className="editorial-quote-cite">— {article.quote.cite}</cite>
               </blockquote>
             )}
 
@@ -185,12 +204,16 @@ export default function ArticleDetail() {
             </div>
           </div>
 
-          {/* Bottom Navigation & Trending Articles */}
+          {/* Bottom Navigation & Trending Articles - Image-Driven, Borderless, Stylish */}
           <div className="editorial-bottom-related-section">
             <div className="related-header">
-              <h3>More Intelligence & Research</h3>
-              <Link href="/tech-topics" className="link-all-articles">
-                Browse All Research Articles →
+              <div>
+                <span className="related-eyebrow">Curated Industry Intelligence</span>
+                <h3 className="related-heading">More Intelligence & Research</h3>
+              </div>
+              <Link href="/tech-topics" className="link-all-articles group">
+                <span>Browse All Research Articles</span>
+                <ArrowRight size={15} className="link-arrow transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
@@ -202,13 +225,28 @@ export default function ArticleDetail() {
                   <Link
                     key={rel.id}
                     href={`/articles/${rel.id}`}
-                    className="related-article-card"
+                    className="related-article-card group"
                   >
-                    <img src={rel.image} alt={rel.title} className="related-thumb" />
+                    <div className="related-thumb-wrapper">
+                      <img src={rel.image} alt={rel.title} className="related-thumb" />
+                      <div className="related-thumb-overlay" />
+                      <span className="related-category-pill">{rel.categoryLabel}</span>
+                    </div>
                     <div className="related-content">
-                      <span className="related-kicker">{rel.categoryLabel}</span>
-                      <h4 className="related-title">{rel.title}</h4>
-                      <span className="related-meta">{rel.authorName} • {rel.readTime}</span>
+                      <h4 className="related-title">
+                        {rel.title}
+                      </h4>
+                      <p className="related-excerpt">{rel.excerpt}</p>
+                      <div className="related-footer-meta">
+                        <div className="related-author-cell">
+                          <img src={rel.authorAvatar} alt={rel.authorName} className="related-author-avatar-img" />
+                          <span className="related-author-name">{rel.authorName}</span>
+                        </div>
+                        <span className="related-read-pill">
+                          <Clock size={12} />
+                          {rel.readTime}
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 ))}
