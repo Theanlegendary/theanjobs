@@ -76,29 +76,48 @@
   font-weight: 600;
 }
 
-/* Built In Hero Section */
+/* Built In Hero Section - Enhanced in 1 Unified Border with | | vertical dividers */
 .builtin-hero {
   background: var(--hero-grad);
-  padding: 24px 20px;
+  padding: 30px 20px;
 }
 
 .builtin-hero-inner {
   max-width: 1180px;
   margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
   display: grid;
-  grid-template-columns: 1.45fr 1.05fr 1.15fr;
-  gap: 12px;
+  grid-template-columns: 1.4fr 1.05fr 1.15fr;
   align-items: stretch;
+  overflow: hidden;
 }
 
 .builtin-hero-card {
-  background: var(--card-bg);
-  border-radius: 6px;
-  padding: 16px 18px;
-  box-shadow: 0 4px 18px rgba(9, 11, 96, 0.12);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+/* Vertical dividers | | between columns */
+.builtin-hero-card:not(:last-child) {
+  border-right: 1px solid #e2e8f0;
+}
+
+@media (max-width: 900px) {
+  .builtin-hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .builtin-hero-card:not(:last-child) {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+  }
 }
 
 /* Hero Card 1: Identity */
